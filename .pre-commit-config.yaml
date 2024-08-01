@@ -36,14 +36,6 @@ repos:
         name: prettier
         entry: corepack pnpx prettier --cache --ignore-unknown --write
         language: system
-      - id: latexmk
-        name: latexmk
-        entry: latexmk -quiet -f
-        language: system
-        types: [text, tex]
-        # I have no idea where latexmk wants the template
-        exclude: LaTeX\/standardi-asiakirja.tex
-        # Fedora: perl-Image-ExifTool
       - id: exiftool
         name: Remove all EXIF metadata using exiftool
         entry: exiftool -all=
