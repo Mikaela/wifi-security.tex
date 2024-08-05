@@ -1,7 +1,7 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.ci for more information
 ci:
-  skip: [prettier]
+  skip: [prettier, latexmk]
   autoupdate_schedule: quarterly
 
 default_language_version:
@@ -36,6 +36,13 @@ repos:
         name: prettier
         entry: corepack pnpx prettier --cache --ignore-unknown --write
         language: system
+      - id: latexmk
+        name: latexmk
+        entry: latexmk -xelatex -bibtex wifi-security.tex
+        language: system
+        always_run: true
+        pass_filenames: false
+        # Fedora: perl-Image-ExifTool
       - id: exiftool
         name: Remove all EXIF metadata using exiftool
         entry: exiftool -all=
