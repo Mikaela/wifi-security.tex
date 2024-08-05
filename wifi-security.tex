@@ -1,11 +1,11 @@
-\documentclass[a4paper,colorlinks,linkcolor=blue,draft]{rapport3}
-\usepackage[latin,finnish,english]{babel}
+\documentclass[a4paper,draft]{rapport3}
+\usepackage[finnish,english]{babel}
 \usepackage{fontspec}
 \usepackage{subfiles}
-\usepackage{lipsum}
-\usepackage[backend=biber]{biblatex}
+\usepackage[backend=biber,refsection=chapter]{biblatex}
 \addbibresource{sources.bib}
 \usepackage{hyperref}
+\hypersetup{urlcolor=blue}
 \usepackage{csquotes}
 
 \usepackage{draftwatermark}
@@ -35,5 +35,4 @@
 \subfile{sections/wifi-attacks}
 \subfile{sections/wifi-positioning-services}
 \subfile{sections/android-tools}
-\printbibliography
 \end{document}
