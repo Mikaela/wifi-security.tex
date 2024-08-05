@@ -48,3 +48,11 @@ repos:
         entry: exiftool -all=
         language: system
         types: [image]
+
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: "2.7.3"
+    hooks:
+      - id: editorconfig-checker
+        alias: ec
+        # I don't actually care about line lengths as more than a guideline
+        args: [-disable-max-line-length]
