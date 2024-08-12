@@ -18,6 +18,23 @@ And also read through funny humorous comments and tell them a \% and then observ
 	\item{Writing TAILS using Fedora image writer}
 	\item{Persistence setup (it was nice easy flow)}
 	\item{The above could be in a VM actually}
+	\item{\texttt{sudo apt update}}
+	\item{\texttt{sudo apt install tmux}}
 \end{itemize}
+
+\subsection*{Booting TAILS}
+
+We first enter UEFI through F2 (at least on tis ASUS X550JX), where selecting the USB Stick opens GRUB to us and then it's just waiting for the system to boot. We could press arrow key to see what happens in the background.
+
+
+Afterwards we get the \textit{Welcome to Tails!} menu where we can pick the Language, Keyboard Layout, Formats, unlock persistent storage and configure additional settings.
+
+Setting the keyboard layout to Finnish is advisable as is the persistent storage.
+
+We also have to visit the Additional Settings to enable Administration Password, which we might know better as \texttt{root password}, so we get access to \texttt{sudo}, installing apps, and the tools we need.
+
+\textbf{NOTE! This password only persists for this boot, so it will have to be set for every reboot.}
+
+\textit{Connect to Tor automatically}
 
 \end{document}
