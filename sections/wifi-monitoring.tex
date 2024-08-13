@@ -3,7 +3,26 @@
 
 \chapter{WiFi Monitoring mode}
 
+
+As previously discussed, % TODO: time travel is fun
+the first step is switching the NIC to monitoring mode so we can observe the WiFi traffic around us.
+In case of Tails, this means three simple steps.
+
+\begin{enumerate}
+	\item Open the \texttt{root terminal} application
+	\item Stop wpa\_supplicant so it won't interfere by running \texttt{systemctl stop wpa\_supplicant}. Note that this will cut our wireless connection.
+	\item Actually switch to the monitoring mode by \texttt{airmon-ng start wlan0}
+\end{enumerate}
+
+%Datapaja,FInlandia_public. homerun1x
+
 \section{aircrack-ng}
+
+Still staying in the root terminal, we execute \texttt{airodump-ng wlan0} and we should now see all the networks around us alongside client devices (stations) requesting connection to BSSIDs and immediately learn that security is a lie.
+
+Based on short observation, I know someone around me has visited both \texttt{Finlandia\_public} and \texttt{Datapaja}. I also know that a neighbor named \Name who likely lives in \texttt{Koti\_\Name} and they own an iPhone 13 Pro Max.
+
+Thus we have confirmed that hidden SSIDs (``\texttt{<length: 0>}'') are harmful for your privacy and won't stop us from knowing them anyway.
 
 \section{Kismet}
 
