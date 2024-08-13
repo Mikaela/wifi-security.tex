@@ -16,7 +16,14 @@
 % Used in the template file
 \usepackage{lipsum}
 
-%\usepackage{censor}
+\usepackage{censor}
+% https://lapsennimi.com/2019/02/suomen-yleisin-nimi/ says the most common names in 2019 were Juha and Anne, so now the names I won't expose are 4 chars long.
+\def \Name{\censor*{4}}
+% >>> MACADDR="ff:ff:ff:ff:ff:ff"
+% >>> len(MACADDR)
+% 17
+\def \MACADDR{\texttt{\censor*{17}}}
+
 %\StopCensoring
 
 \setmainfont{Roboto Serif}
