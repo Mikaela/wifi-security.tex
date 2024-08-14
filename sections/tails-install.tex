@@ -1,14 +1,44 @@
 \documentclass[../wifi-security.tex]{subfiles}
 \begin{document}
 
-\chapter{Installing TAILS}
+\chapter{Installing Tails}
 
-\section{How TAILS replaced Kali Linux in this work}
+\section{How Tails replaced Kali Linux in this work}
 
 I was first going to go with Kali Linux, but eventually decided it's not that great match for this assignment, regardless of how great it is in general.
 
 While this could be done using a virtual machine, it would require more configuration and all. I did create an USB installation of Kali Linux, but it's not designed for that and seems to work on only about every second computer I plug it in, and I needed to perform systemd-bootd installation and a lot of other things to get where I was with it.
 
 Kali also has a lot of tools that are unrelated to this purpose and TAILS also has the advantage of having MAC Address spoofing out of the box and warning us when it fails to enable it. Thus we would have plausible deniability, if we weren't writing, reviewing or otherwise reading a document on WiFi security analysis…
+
+\section{Side project: compiling this document on Tails}
+
+Since this repository currently lives in a private GitHub repository, all actions require access token. Thus it's the easiest to utilize the .netrc file. CITE SHELL-THINGS HERE
+
+As we have setup persistence (TODO), we can execute
+
+\begin{verbatim}
+$ touch /live/persistence/TailsData_unlocked/dotfiles/.{netrc,curlrc}
+$ ln -nsfv /live/persistence/TailsData_unlocked/dotfiles/.netrc ~/
+$ ln -nsfv /live/persistence/TailsData_unlocked/dotfiles/.curlrc ~/
+\end{verbatim}
+
+to have our netrc and curlrc persist across reboots. Only the first command would be necessary, but by running the second we avoid having to reboot for the symlink to get created.
+
+% TODO: cite man ln
+The \texttt{-nsfv} stands for \texttt{--no-derefence} \texttt{--symbolic} \texttt{--force} \texttt{--verbose} and would prevent creation of a symlink within a directory that itself was a symlink, create a symbolic link instead of hard one, overwrite already existing symlink (if we had one) and repeat back to us what was done.
+
+% TODO: GitHub access token creation
+
+In order to install the packages we need:
+
+% TODO: This is not a complete set, Roboto Serif was causing complaints, although I didn't reboot yet.
+
+\begin{verbatim}
+	sudo apt install --no-install-recommends make latexmk texlive-xetex \
+	texlive-lang-european biber texlive-bibtex-extra \
+	texlive-fonts-recommended texlive-fonts-extra
+\end{verbatim}
+
 
 \end{document}
