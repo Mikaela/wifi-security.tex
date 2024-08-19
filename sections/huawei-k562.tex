@@ -126,4 +126,34 @@ When applying this, Huawei once again gives us a warning \textbf{Due to frequenc
 
 % TODO CITE METIS
 
+Next would be \textit{Wi-Fi Coverage Management}, which doesn't refer to the transmit power discussed previously, but mesh networking and I am going to just disable this due to the small size of my apartment.
+
+Automatic Wi-Fi Shutdown is also irrelevant and as I only have this Huawei router I don't need to switch from router to bridge mode either.
+
+\section{LAN Settings}
+
+I visited here before and the Apple recommendation is 8 hours for private networks, X for public.
+
+We can no longer reliably identify devices based on the MAC address and that affects routers as well, since modern mobile devices have MAC address randomisation with unpredictable interval. In case of Android, there is a developer mode option to always change MAC address.
+
+\section{IPv6 and DHCPv6 Server Configuration}
+
+IPv6 itself is a toggle whether it's enabled or not, and we are going to leave it enabled, since most of Finland already has IPv6 available and IPv4 addresses ran out ages ago.
+
+In DHCPv6 settings, we could change DNS Information to benefit from DNS Over TLS opportunistic mode. % TODO
+
+% Quad9 (Secure)  https://dns.quad9.net/dns-query dns.quad9.net   2620:fe::fe     2620:fe::9      9.9.9.9 149.112.112.112 https://docs.quad9.net/Setup_Guides/iOS/iOS_14_and_later_%28Encrypted%29/#download-profile       no      https://www.quad9.net/support/faq/#edns
+
+I choose \texttt{2620:fe::fe} and \texttt{2620:fe::9} which are Quad9 with ECS and increase client security by DNS level filtering of bad domains. More on ECS later. % TODO
+
+We could also enable ULA in automatic mode. ULA starts for Unique Local Address and is the successor of the old class A/B/C internal networks from IPv4.
+
+The final option of \texttt{Network Configuration} would be \texttt{UPnP} which for security should be disabled since it could allow potentially unwanted applications to connect to the internet through our router firewall, but I run firewalls on all client devices where possible and utilise applications relying on UPnP such as Syncthing synchronising my files between my devices without other people's computers, so I am leaving it enabled.
+
+\section{Security configuration}
+
+The router admin panel would begin at MAC address filtering, but as mentioned before, mobile devices are constantly changing their MAC addresses and besides as discussed in the upcoming Aircrack section, the MAC addresses or BSSIDs are visible really easily and thus MAC address filtering is entirely pointless. Otherwise there isn't really much to say about security configuration and unlike everything before, the defaults seem reasonable.
+
+The next section would be \textit{System Management}, where the only relevant thing would be \textit{Account Management}, which was already handled.
+
 \end{document}
