@@ -1,0 +1,129 @@
+\documentclass[../wifi-security.tex]{subfiles}
+\begin{document}
+
+\chapter{Introductionary case study: Huawei K562}
+
+Also known as \textit{OptiXstar K562 Ethernet Terminal}, \textit{DNA Mesh WiFi -modem K562} and \textit{Valoo WiFi 6 Mesh -router}. First we factory reset it, then we will go through all the settings to see how everything is wrong.
+
+% WiFi 5G kanava 112
+
+\section{Fresh from the factory}
+
+I was trying to perform the setup using an ethernet cable, but since that is very slow for some reason, I am laxing from information security a bit by connecting to the device wirelessly.
+
+% TODO: MAYBE PHOTOS HERE?
+
+% TODO: include redacted SSID name, see prior variable
+
+The default credentials read on the bottom of the device and luckily either Huawei or DNA has included a QR code there, so first we use an Android to open network settings and scan the code. Next we select the new network and share the connection, so we can see the password without having to take photos or think of other hacks.
+
+% TODO --v
+
+\subsection{Admin password}
+
+% TODO Control panel, http://192.168.101.1/ username admin, password 1234
+
+Now if security was a priorityy, we would be forced to change the login password immediately. However as they don't, we have to navigate More, System Management, Account Management by ourselves to see this prompt.
+
+We are thrown back to the login screen displayed previously.
+
+\subsection{Default SSID}
+
+For some reason this device shíps with one 2.4 GHz SSID enabled and two 5 GHz ones. As the defaults are insecure, we change them immediately (which will also permit my devices to reconnect after the factory reset).
+
+We have to navigate to WLAN and there both 2.4 GHz and 5 GHz settings separately.
+
+We also have to disable WPS by ourselves by disabling the checkbox (on both frequencies).
+
+% TODO WPS insecure
+
+Next the same for WiFi 5, where note the existence of a duplicate SSID!
+
+Off-screen I have also visited Network Configuration, LAN Settings, which is irrelevant for this work, but my devices have static network configuration that is not compatible with Huihai defaults.
+
+\section{My WiFi}
+
+Now that our basics are in order, we are ready to start moving through all the menus. Homepage and Internet Access have nothing terribly interesting, but our first issue is My WiFi where we can see a \textit{WiFi Power Mode}, which is set to \textit{Through-wall (high power, better signal)}.
+
+Now, is this a reasonable option? I am living in a studio apartment and I have a single room (the kitchen closet has its removed) and I don't use WiFi or anything else in the bathroom.
+
+Remember that WiFi is a semi-duplex radio, so we are disturbing everyone's connectivity which was already bad. We are also turning all radios connecting to the access point to maximum power since there is an assumption that if server with maximum power is heard, so will be the client with equal power, so there may also be a question of electricity and green ICT perspective. On the security side, do we want the network to be connectable from far beyond the closest set of walls? % TODO CITE METIS
+
+We change it to \textit{Sleep (low power, weak signal)} and receive a scary warning \textbf{You are advised to use the through-wall mode. The signal in this mode is better.Wi-Fi power modification takes effect, causing a short interruption of Wi-Fi.}
+
+% At this point our \texttt{microsoft-edge-stable} freezes and crashes, so we have to restart it before continuing to...
+
+% TODO: what is WMM here?
+
+\section{WLAN Advanced Configuration}
+
+Here we see that our device is configured to use
+
+Channel: automatic
+Channel width: automatic 20/40 MHz
+Mode: 802.11b/g/n/ax
+Airtime fairness
+
+Channel: automatic
+Channel width: automatic 20/40/80/160 MHz
+Mode: 802.11a/n/ac/ax
+Airtime fairness
+
+The device again repeats \textbf{You are advised to set it to 11b/g/n/ax.}
+
+\subsection{2.4G Wi-Fi all wrong}
+
+2,4 G frequencies are a restricted resource, one that our access points share with microwave ovens, bluetooth and everything. If we want to live in peace without disturbing others, we have three channels, that is if everyone uses 20 MHz channel width, but no, a lot of devices decide to use 40 MHz.
+
+As per Apple's recommendation we switch to channel width 20 MHz. % TODO CITE
+
+Now, the mode. While generally backwards compatibility is good, we are using the valuable shared airtime and by being backwards compatible, we make sacrifices including in speed (and possibly energy consumption) % TODO
+
+The different standards were released in TODO and the only Wi-Fi device incapable of WiFi N that I can name is Nokia E63 running Symbian Series ... and thus we don't need backwards compatibility, since it's long out of security support. We switch to 802.11n-only, which is the most modern we are provided.
+
+\subsection{Interlude: WiFi DFS channels and Location Aware Routing}
+
+The automatic channel selection of 5 GHz sounds great in theory, but in practice we are following European regulation and thus can only use channels 36 to 64 if we cannot detect weather radars (100-144) and who knows what are channels 149-177 for (TODO).
+
+Our devices should be aware of what country we are in, but commonly consumer devices don't allow configuring that explicitly so we end up in Germany if we are even in Europe. This can be seen through \texttt{iw reg get} for our current NIC when using Linux:
+
+\begin{verbatim}
+global
+country FI: DFS-ETSI
+...
+
+phy#0 (self-managed)
+country FI: DFS-UNSET
+...
+\end{verbatim}
+
+Redacted are the regulations our WiFi network interface card recognises. Luckily at the time of writing, we are correctly detected to be in Finland, but that is often not the case, and generally all access points broadcast being in Germany.
+
+However note that DFS is unset, thus we are avoiding DFS channels out of the box and have to configure our device manually to have free channel.
+
+DFS stands for Dynamic Frequency Selection and means that when booting, our access point scans around for weather radars for 10 minutes before beginning broadcasting and WiFi starting to work.
+
+We can also see what the nearby access points broadcast:\\ \texttt{sudo iw wlan0 scan | grep -E "SSID:|Country:" | less}
+
+\begin{verbatim}
+	SSID: LocationServices_nomap
+	Country: FI     Environment: bogus
+	SSID: LocationServices_nomap
+	Country: FI     Environment: bogus
+\end{verbatim}
+
+All of the more presumably recent DNA devices appear to be advertising being setup in Finland, but in invalid environment, while the older models advertise being setup in Germany Indoor/Outdoor meaning the access points don't know are they setup indoors or outdoors, which again furter restricts the frequency options.
+
+\subsection{Back to 5G configuration}
+
+In order to not share channel with all 14 other networks that are present at the time of writing, we must configure the 5G channel by hand. As the regulatory domain says DFS is unset, everyone keeps avoiding those channels and we should check where the weather radars are. I mostly spend my time in Helsinki and Kotka and happen to know that the closest weather radars to those share the channel 128 and are located in Vantaa and Anjalankoski. Thus we are free to pick any other channel.
+
+I have once observed a TP-Link device on channel 100 at my home, so I am using the channel 112 which will not overlap the 128 which would cause a distruption whenever the weather radar activates.
+
+Thus we again see Huwaei telling us \textbf{You are advised to set the channel to Automatic.}, since they seem to be having incorrect assumption of access point being configured properly. Perhaps they expect to be a minority and rely on the majority to have proper configuration for Location Address Networking.
+
+When applying this, Huawei once again gives us a warning \textbf{Due to frequency regulation, if you select this channel, you need to wait for 10 minutes until the Wi-Fi network is available.}, but that we already knew, even if otherwise it might have been helpful.
+
+% TODO CITE METIS
+
+\end{document}
