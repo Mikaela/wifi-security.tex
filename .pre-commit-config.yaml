@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Aminda Suomalainen <suomalainen@aminda.eu>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # See https://pre-commit.com for more information
 # See https://pre-commit.ci for more information
 ci:
@@ -29,6 +33,11 @@ repos:
     rev: v1.6.1
     hooks:
       - id: check-pre-commit-ci-config
+
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v4.0.3
+    hooks:
+      - id: reuse
 
   - repo: local
     hooks:
