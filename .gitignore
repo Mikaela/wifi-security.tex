@@ -307,3 +307,4 @@ TSWLatexianTemp*
 
 node_modules
 *-SAVE-ERROR
+*.png_original
