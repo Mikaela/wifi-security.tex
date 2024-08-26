@@ -40,17 +40,34 @@
 \graphicspath{
 	{images}
 }
+
+% https://tex.stackexchange.com/a/167529
+\newenvironment{dedication}
+	{
+		\thispagestyle{empty}% no header and footer
+		\vspace*{\stretch{1}}% some space at the top
+		\itshape             % the text is in italics
+		\raggedleft          % flush to the right margin
+	}
+	{\par % end the paragraph
+	\vspace{\stretch{3}} % space at bottom is three times that at the top
+	\clearpage           % finish off the page
+	}
+
 %\title{WiFi Security Analysis using Kali Linux}
 %\title{WiFi Security Analysis using TAILS \\ \textit{The Amnesiac Incognito Linux System}}
 \title{A glance into WiFi network security and privacy}
 \author{Aminda Suomalainen}
 \date{TO BE ANNOUNCED}
 
-% Removes empty ToC page
-%\let\cleardoublepage=\clearpage
-
 \begin{document}
 \maketitle
+
+%\chapter{Dedication}
+\begin{dedication}
+For those struggling to find the balance between Environment, Privacy and Security. \par You aren't alone.
+\end{dedication}
+
 \tableofcontents
 %\subfile{sections/todo-done}
 %\subfile{sections/hardware}
