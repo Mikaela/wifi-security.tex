@@ -9,23 +9,19 @@
 
 Also known as \textit{OptiXstar K562 Ethernet Terminal}, \textit{DNA Mesh WiFi -modem K562} and \textit{Valoo WiFi 6 Mesh -router}. First we factory reset it, then we will go through all the settings to see how everything is wrong.
 
-% WiFi 5G kanava 112
-
 \section{Fresh from the factory}
 
 I was trying to perform the setup using an ethernet cable, but since that is very slow for some reason, I am laxing from information security a bit by connecting to the device wirelessly.
 
 % TODO: MAYBE PHOTOS HERE?
 
-% TODO: include redacted SSID name, see prior variable
-
 The default credentials read on the bottom of the device and luckily either Huawei or DNA has included a QR code there, so first we use an Android to open network settings and scan the code. Next we select the new network and share the connection, so we can see the password without having to take photos or think of other hacks.
+
+The control panel is located in \texttt{192.168.101.17} with the username being \texttt{admin} and password \texttt{1234}.
 
 \fbox{\includegraphics[height=11.5cm]{huawei/00-login.png}}
 
 \subsection{Admin password}
-
-% TODO Control panel, http://192.168.101.1/ username admin, password 1234
 
 Now if security was a priority, we would be forced to change the login password immediately. However as they don't, we have to navigate More, System Management, Account Management by ourselves to see this prompt.
 
@@ -55,7 +51,7 @@ Now that our basics are in order, we are ready to start moving through all the m
 
 Now, is this a reasonable option? I am living in a studio apartment and I have a single room (the kitchen closet has its removed) and I don't use WiFi or anything else in the bathroom.
 
-Remember that WiFi is a semi-duplex radio, so we are disturbing everyone's connectivity which was already bad. We are also turning all radios connecting to the access point to maximum power since there is an assumption that if server with maximum power is heard, so will be the client with equal power, so there may also be a question of electricity and green ICT perspective. On the security side, do we want the network to be connectable from far beyond the closest set of walls? \autocite{metistxpower}
+Remember that WiFi is a semi-duplex radio, so all access points sharing the same channel distrupt each other due to sharing airtime assuming they can hear each other. We are also turning all radios connecting to the access point to maximum power since there is an assumption that if server with maximum power is heard, so will be the client with equal power, so there may also be a question of electricity and green ICT perspective. On the security side, do we want the network to be connectable from far beyond the closest set of walls? \autocite{metistxpower}
 
 We change it to \textit{Sleep (low power, weak signal)} and receive a scary warning \textbf{You are advised to use the through-wall mode. The signal in this mode is better.Wi-Fi power modification takes effect, causing a short interruption of Wi-Fi.}
 
@@ -81,13 +77,15 @@ The device again repeats \textbf{You are advised to set it to 11b/g/n/ax.}
 
 \subsection{2.4G Wi-Fi all wrong}
 
-2,4 G frequencies are a restricted resource, one that our access points share with microwave ovens, bluetooth and everything. If we want to live in peace without disturbing others, we have three channels, that is if everyone uses 20 MHz channel width, but no, a lot of devices decide to use 40 MHz.
+2,4 G frequencies are a limited resource, one that our access points share with microwave ovens, bluetooth and everything. If we want to live in peace without disturbing others, we have three channels, that is if everyone uses 20 MHz channel width, but no, a lot of devices decide to use 40 MHz.
 
-As per Apple's recommendation we switch to channel width 20 MHz. % TODO CITE
+As per Apple's recommendation we switch to channel width 20 MHz.\autocite{appleap}
 
-Now, the mode. While generally backwards compatibility is good, we are using the valuable shared airtime and by being backwards compatible, we make sacrifices including in speed (and possibly energy consumption) % TODO
+Now, the mode. While generally backwards compatibility is good, we are using the valuable shared airtime and by being backwards compatible, we make sacrifices including in speed (and possibly energy consumption). \autocite{doubleedgedbackwards}
 
-The different standards were released in TODO and the only Wi-Fi device incapable of WiFi N that I can name is Nokia E63 running Symbian Series ... and thus we don't need backwards compatibility, since it's long out of security support. We switch to 802.11n-only, which is the most modern we are provided.
+802.11n, nowadays also known as Wi-Fi 4 was adopted in 2009 and remains the most common version of 2.4G Wi-Fi today. 802.11g (Wi-Fi 3) is from 2003 and 802.11b (Wi-Fi 1) from 1999 \autocite{wikipediawifi6}. Do we really need backwards compatibility so far back?
+
+The only Wi-Fi device incapable of WiFi N that I can name is Nokia E63 running Symbian. Thus we switch to 802.11n-only, which is the most modern and likely last 2.4 GHz option.
 
 \subsection{Interlude: WiFi DFS channels and Location Aware Routing}
 
@@ -138,7 +136,7 @@ Automatic Wi-Fi Shutdown is also irrelevant and as I only have this Huawei route
 
 \section{LAN Settings}
 
-I visited here before and the Apple recommendation is 8 hours for private networks, X for public.
+I visited here before and the Apple recommendation is 8 hours for private networks, one for public hotspots and guest networks.\autocite{appleap}
 
 We can no longer reliably identify devices based on the MAC address and that affects routers as well, since modern mobile devices have MAC address randomisation with unpredictable interval. In case of Android, there is a developer mode option to always change MAC address.
 
