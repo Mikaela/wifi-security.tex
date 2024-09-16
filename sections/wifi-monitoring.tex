@@ -5,7 +5,7 @@
 \documentclass[../wifi-security.tex]{subfiles}
 \begin{document}
 
-\chapter{WiFi Monitoring mode}
+\section{WiFi Monitoring mode}
 
 
 As previously discussed, % TODO: time travel is fun
@@ -20,7 +20,7 @@ In case of Tails, this means three simple steps.
 
 %Datapaja,FInlandia_public. homerun1x
 
-\section{aircrack-ng}
+\subsection{aircrack-ng}
 
 Still staying in the root terminal, we execute \texttt{airodump-ng wlan0} and we should now see all the networks around us alongside client devices (stations) requesting connection to BSSIDs and immediately learn that security is a lie.
 
@@ -29,10 +29,10 @@ Based on short observation, I know someone around me has visited both \texttt{Fi
 Thus we have confirmed that hidden SSIDs (``\texttt{<length: 0>}'') are harmful for your privacy and won't stop us from knowing them anyway.
 
 % Cancelled since a lot deeper detail than requested.
-%\section{Kismet}
+%\subsection{Kismet}
 %
 %See also wardriving in wifi-position-services?
 %
-%\section{WireShark?}
+%\subsection{WireShark?}
 
 \end{document}

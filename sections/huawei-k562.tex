@@ -5,11 +5,11 @@
 \documentclass[../wifi-security.tex]{subfiles}
 \begin{document}
 
-\chapter{Introductionary case study: Huawei K562}
+\section{Introductionary case study: Huawei K562}
 
 Also known as \textit{OptiXstar K562 Ethernet Terminal}, \textit{DNA Mesh WiFi -modem K562} and \textit{Valoo WiFi 6 Mesh -router}. First we factory reset it, then we will go through all the settings to see how everything is wrong.
 
-\section{Fresh from the factory}
+\subsection{Fresh from the factory}
 
 I was trying to perform the setup using an ethernet cable, but since that is very slow for some reason, I am laxing from information security a bit by connecting to the device wirelessly.
 
@@ -21,7 +21,7 @@ The control panel is located in \texttt{192.168.101.1} with the username being \
 
 \fbox{\includegraphics[height=11.5cm]{huawei/00-login.png}}
 
-\subsection{Admin password}
+\subsubsection{Admin password}
 
 Now if security was a priority, we would be forced to change the login password immediately. However as they don't, we have to navigate More, System Management, Account Management by ourselves to see this prompt.
 
@@ -31,7 +31,7 @@ We are thrown back to the login screen displayed previously.
 
 \fbox{\includegraphics[height=11.5cm]{huawei/00-login.png}}
 
-\subsection{Default SSID}
+\subsubsection{Default SSID}
 
 For some reason this device shíps with one 2.4 GHz SSID enabled, DNA-WIFI-\Name, and two 5 GHz ones, DNA-WIFI-\Name and DNA-WIFI-5Ghz-\Name. As the defaults are insecure, we change them immediately (which will also permit my devices to reconnect after the factory reset).
 
@@ -45,7 +45,7 @@ Next the same for WiFi 5, where note the existence of a duplicate SSID!
 
 Off-screen I have also visited Network Configuration, LAN Settings, which is irrelevant for this work, but my devices have static network configuration that is not compatible with Huihai defaults.
 
-\section{My WiFi}
+\subsection{My WiFi}
 
 Now that our basics are in order, we are ready to start moving through all the menus. Homepage and Internet Access have nothing terribly interesting, but our first issue is My WiFi where we can see a \textit{WiFi Power Mode}, which is set to \textit{Through-wall (high power, better signal)}.
 
@@ -59,7 +59,7 @@ We change it to \textit{Sleep (low power, weak signal)} and receive a scary warn
 
 % TODO: what is WMM here?
 
-\section{WLAN Advanced Configuration}
+\subsection{WLAN Advanced Configuration}
 
 Here we see that our device is configured to use
 
@@ -75,7 +75,7 @@ Airtime fairness
 
 The device again repeats \textbf{You are advised to set it to 11b/g/n/ax.}
 
-\subsection{2.4G Wi-Fi all wrong}
+\subsubsection{2.4G Wi-Fi all wrong}
 
 2,4 G frequencies are a limited resource, one that our access points share with microwave ovens, bluetooth and everything. If we want to live in peace without disturbing others, we have three channels, that is if everyone uses 20 MHz channel width, but no, a lot of devices decide to use 40 MHz.
 
@@ -89,7 +89,7 @@ The only Wi-Fi device incapable of WiFi N that I can name is Nokia E63 running S
 % TODO: the sentence continued like below, but that is not factual since it has been touched by more recent standards and likely will.
 % which is the most modern and likely last 2.4 GHz option.
 
-\subsection{Interlude: WiFi DFS channels and Location Aware Routing}
+\subsubsection{Interlude: WiFi DFS channels and Location Aware Routing}
 
 The automatic channel selection of 5 GHz sounds great in theory, but in practice we are following European regulation and thus can only use channels 36 to 64 if we cannot detect weather radars (100-144) \autocite{metisdfs} and who knows what are channels 149-177 for (TODO).
 
@@ -122,7 +122,7 @@ We can also see what the nearby access points broadcast:\\ \texttt{sudo iw wlan0
 
 All of the more presumably recent DNA devices appear to be advertising being setup in Finland, but in invalid environment, while the older models advertise being setup in Germany Indoor/Outdoor meaning the access points don't know are they setup indoors or outdoors, which again furter restricts the frequency options.
 
-\subsection{Back to 5G configuration}
+\subsubsection{Back to 5G configuration}
 
 In order to not share channel with all 14 other networks that are present at the time of writing, we must configure the 5G channel by hand. As the regulatory domain says DFS is unset, everyone keeps avoiding those channels and we should check where the weather radars are. I mostly spend my time in Helsinki and Kotka and happen to know that the closest weather radars to those share the channel 128 and are located in Vantaa and Anjalankoski \autocite{metisweather}. Thus we are free to pick any other channel.
 
@@ -136,13 +136,13 @@ Next would be \textit{Wi-Fi Coverage Management}, which doesn't refer to the tra
 
 Automatic Wi-Fi Shutdown is also irrelevant and as I only have this Huawei router I don't need to switch from router to bridge mode either.
 
-\section{LAN Settings}
+\subsection{LAN Settings}
 
 I visited here before and the Apple recommendation is 8 hours for private networks, one for public hotspots and guest networks.\autocite{appleap}
 
 We can no longer reliably identify devices based on the MAC address and that affects routers as well, since modern mobile devices have MAC address randomisation with unpredictable interval. In case of Android, there is a developer mode option to always change MAC address.
 
-\section{IPv6 and DHCPv6 Server Configuration}
+\subsection{IPv6 and DHCPv6 Server Configuration}
 
 IPv6 itself is a toggle whether it's enabled or not, and we are going to leave it enabled, since most of Finland already has IPv6 available and IPv4 addresses ran out ages ago.
 
@@ -156,11 +156,11 @@ We could also enable ULA in automatic mode. ULA starts for Unique Local Address 
 
 The final option of \texttt{Network Configuration} would be \texttt{UPnP} which for security should be disabled since it could allow potentially unwanted applications to connect to the internet through our router firewall, but I run firewalls on all client devices where possible and utilise applications relying on UPnP such as Syncthing synchronising my files between my devices without other people's computers, so I am leaving it enabled.
 
-\section{Security configuration}
+\subsection{Security configuration}
 
-The router admin panel would begin at MAC address filtering, but as mentioned before, mobile devices are constantly changing their MAC addresses and besides as discussed in the upcoming Aircrack section, the MAC addresses or BSSIDs are visible really easily and thus MAC address filtering is entirely pointless. Otherwise there isn't really much to say about security configuration and unlike everything before, the defaults seem reasonable.
+The router admin panel would begin at MAC address filtering, but as mentioned before, mobile devices are constantly changing their MAC addresses and besides as discussed in the upcoming Aircrack subsection, the MAC addresses or BSSIDs are visible really easily and thus MAC address filtering is entirely pointless. Otherwise there isn't really much to say about security configuration and unlike everything before, the defaults seem reasonable.
 
-The next section would be \textit{System Management}, where the only relevant thing would be \textit{Account Management}, which was already handled.
+The next subsection would be \textit{System Management}, where the only relevant thing would be \textit{Account Management}, which was already handled.
 
 \printbibliography[title={Chapter references}]
 
